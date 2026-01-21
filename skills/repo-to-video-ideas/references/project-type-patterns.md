@@ -1,5 +1,7 @@
 # Project Type Detection & Analysis Patterns
 
+**Purpose:** How to detect project types and extract core functionality for video idea generation.
+
 ## n8n Workflows
 
 **Detection:**
@@ -28,6 +30,12 @@
 - Use `get_node` to get detailed node documentation
 - Use `validate_workflow` to check for issues
 
+**Code assessment:**
+- ✅ n8n workflows are typically 🟢 Fully Built (the workflow IS the implementation)
+- Check for multiple workflow files (enables "comparison" video ideas)
+- Check node count and complexity (determines tutorial length)
+- Comparison ideas need 2+ workflows → Usually 🟢 if both exist
+
 ---
 
 ## Claude Code Skills
@@ -51,6 +59,13 @@
 - Required tools or MCP servers
 - Scripts included and their purpose
 - Reference files and what they document
+
+**Code assessment:**
+- ✅ Skills are typically 🟢 Fully Built (the skill IS the implementation)
+- Check for scripts/ folder → Enables "script showcase" ideas
+- Check for reference/ folder → Indicates depth for "deep dive" ideas
+- If scripts exist → Tutorial/demo ideas are 🟢
+- Comparison ideas (vs other skills) → Usually 🟡 (need comparison write-up)
 
 ---
 
@@ -76,6 +91,29 @@
 - CLI commands if applicable
 - Configuration options
 
+**Code assessment:**
+Search for these patterns to assess video ideas:
+
+**CLI/Scripts:**
+- `cli_*.py`, `cmd_*.py`, `scripts/*.py` → Enables tutorial ideas (🟢 if comprehensive)
+- Check for argparse/click decorators → Shows available commands
+
+**Comparisons:**
+- `compare_*.py`, `*_vs_*.py` → 🟢 if exists, 🟡 if needs to be built
+- Multiple implementation files (method_a.py, method_b.py) → 🟡 for comparison
+
+**Benchmarks:**
+- `benchmark_*.py`, `performance_*.py` → 🟢 if exists, 🔴 if missing
+- `timeit`, `time` imports in files → Indicates timing code exists
+
+**Visualizations:**
+- Check requirements for: `matplotlib`, `plotly`, `seaborn` → Enables chart-based videos
+- Visualization scripts in scripts/ folder → 🟢 if exist, 🟡 if need to add
+
+**API/Web:**
+- `app.py`, `api.py`, `main.py` with Flask/FastAPI → Enables API demo videos (🟢)
+- Frontend folders (`templates/`, `static/`) → Enables UI demo videos (🟢)
+
 ---
 
 ## JavaScript/Node Projects
@@ -98,6 +136,23 @@
 - Key dependencies
 - Available npm scripts
 - Build/run commands
+
+**Code assessment:**
+**Frontend/UI:**
+- React/Vue/Next.js components → 🟢 for UI demo videos
+- Pages/routes → Count to estimate tutorial complexity
+
+**Backend/API:**
+- Express/Fastify routes → 🟢 for API tutorials
+- GraphQL schema → 🟢 for GraphQL demos
+
+**Comparisons:**
+- Multiple similar files (auth_jwt.js, auth_session.js) → 🟡 for comparison videos
+- Multiple implementation approaches → Need comparison script
+
+**Scripts:**
+- scripts/ folder with utilities → 🟢 for specific feature demos
+- Package.json scripts → Shows available commands for tutorials
 
 ---
 

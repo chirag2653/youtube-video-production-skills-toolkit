@@ -1,5 +1,7 @@
 # Video Idea Templates
 
+**Purpose:** Types of video ideas and creative patterns to inspire generation.
+
 When generating video ideas, consider these different angles and formats.
 
 ## Idea Types
@@ -18,6 +20,17 @@ End-to-end demonstration of the entire project.
 - **Value prop:** See a complete invoice automation from email to spreadsheet
 - **Key demo moments:** Gmail trigger, AI extraction, Google Sheets logging, Slack alerts
 - **Length:** Deep dive (25min)
+- **Code Status:** 🟢 Fully Built
+
+**What exists:**
+- ✅ Complete n8n workflow with all nodes configured
+- ✅ AI extraction logic implemented
+- ✅ Google Sheets integration setup
+
+**What needs to be built:**
+- None
+
+**Dev estimate:** None - Just needs sample invoices for demo
 ```
 
 ---
@@ -36,6 +49,17 @@ Zoom in on one specific capability or technique.
 - **Value prop:** Learn a reusable pattern for preventing duplicate processing
 - **Key demo moments:** The detection logic, how it compares records, handling edge cases
 - **Length:** Medium (12min)
+- **Code Status:** 🟢 Fully Built
+
+**What exists:**
+- ✅ Duplicate detection logic in workflow
+- ✅ Comparison function implemented
+- ✅ Edge case handling
+
+**What needs to be built:**
+- None
+
+**Dev estimate:** None
 ```
 
 ---
@@ -108,6 +132,19 @@ This vs That, or multiple options evaluated.
 - **Value prop:** See both in action on the same documents
 - **Key demo moments:** Same invoice through both, accuracy comparison, pricing
 - **Length:** Medium (15min)
+- **Code Status:** 🟡 Partial - Comparison script needed
+
+**What exists:**
+- ✅ LlamaCloud extraction script
+- ✅ OpenAI extraction script
+- ✅ Both can process same documents
+
+**What needs to be built:**
+- ❌ scripts/compare_extraction_results.py - Side-by-side comparison
+- ❌ Accuracy scoring/metrics calculation
+- ❌ Cost comparison table generator
+
+**Dev estimate:** 3-4 hours
 ```
 
 ---
@@ -166,3 +203,9 @@ When creating ideas for a project, ensure variety:
 | Short (3-7 min) | Quick tips, installs, single features | High volume, shareable |
 | Medium (10-15 min) | Problem-solution, feature focus | Balanced depth |
 | Deep dive (20-30+ min) | Full walkthroughs, build-alongs | Comprehensive teaching |
+
+---
+
+## Summary
+
+Use these idea types as inspiration. Mix different types to create variety in your video ideas. For exact output format and complete examples, see `video-ideas-output-template.md`.
