@@ -13,10 +13,19 @@ Project Repo (something you built)
     │
     ▼
 ┌─────────────────────────────────────┐
-│  Skill: repo-to-video-idea          │
+│  Skill: repo-to-video-ideas         │
 │  Input:  Project codebase           │
 │  Output: demo-video/video-ideas.md  │
-│          demo-video/video-context.md│
+│          (ranked by code readiness) │
+└─────────────────────────────────────┘
+    │
+    ▼ [User reviews ideas, selects one]
+    │
+    ▼
+┌─────────────────────────────────────┐
+│  Skill: video-idea-to-context       │
+│  Input:  video-ideas.md + selection │
+│  Output: demo-video/video-context.md│
 └─────────────────────────────────────┘
     │
     ▼
@@ -63,8 +72,41 @@ Project Repo (something you built)
 
 ## Artifact Definitions
 
-### 1. `demo-video/video-context.md`
-**Created by:** `repo-to-video-idea` skill
+### 1. `demo-video/video-ideas.md`
+**Created by:** `repo-to-video-ideas` skill
+**Consumed by:** `video-idea-to-context` skill, content creators, downstream tools
+**Location:** Lives in the project repo alongside the code being demoed
+
+This is the first artifact in the pipeline - a comprehensive list of video ideas ranked by code readiness.
+
+Structure:
+```markdown
+# Video Ideas for [Project Name]
+
+**Generated:** [Date]
+**Project Type:** [Type]
+**Total Ideas:** [N]
+
+## 🟢 Ready to Demo (Just needs demo data)
+[Ideas where all code exists]
+
+## 🟡 Needs Minor Code Additions (1-3 files, 2-6 hours)
+[Ideas needing helper scripts]
+
+## 🔴 Requires Feature Development (Significant work)
+[Ideas needing major new features]
+```
+
+Each idea includes:
+- Audience, value prop, key demo moments, length
+- **Code Status:** 🟢 Fully Built | 🟡 Partial | 🔴 Needs Development
+- What exists vs what needs to be built
+- Dev time estimate
+
+---
+
+### 2. `demo-video/video-context.md`
+**Created by:** `video-idea-to-context` skill
 **Consumed by:** `youtube-script-generator`, `youtube-title-generator`, `youtube-description-generator`
 **Location:** Lives in the project repo alongside the code being demoed
 
@@ -114,7 +156,7 @@ Custom build offer, links, etc.
 
 ---
 
-### 2. `script.md`
+### 3. `script.md`
 **Created by:** `youtube-script-generator` skill
 **Consumed by:** `youtube-slide-prompts`, `youtube-thumbnail-prompt`, recording reference
 
@@ -138,7 +180,7 @@ Visual types:
 
 ---
 
-### 3. `slide-prompts/*.md`
+### 4. `slide-prompts/*.md`
 **Created by:** `youtube-slide-prompts` skill
 **Consumed by:** Image generation skill (e.g., `gemini-image-generation`)
 
@@ -150,7 +192,7 @@ One file per section that needs a static visual. Contains:
 
 ---
 
-### 4. `thumbnail-prompt.md`
+### 5. `thumbnail-prompt.md`
 **Created by:** `youtube-thumbnail-prompt` skill
 **Consumed by:** Image generation skill
 
@@ -163,7 +205,7 @@ Contains:
 
 ---
 
-### 5. `title-variations.md`
+### 6. `title-variations.md`
 **Created by:** `youtube-title-generator` skill
 **Consumed by:** You (final selection)
 
@@ -175,7 +217,7 @@ Contains:
 
 ---
 
-### 6. `description.md`
+### 7. `description.md`
 **Created by:** `youtube-description-generator` skill
 **Consumed by:** YouTube upload
 
@@ -240,7 +282,8 @@ my-project-repo/                    # Your actual project (n8n workflow, skill, 
 
 | Skill | Status | Input Artifact | Output Artifact |
 |-------|--------|----------------|-----------------|
-| `repo-to-video-idea` | **Created** | Project codebase | `demo-video/video-ideas.md`, `demo-video/video-context.md` |
+| `repo-to-video-ideas` | **✅ Created** | Project codebase | `demo-video/video-ideas.md` (ranked by code readiness 🟢🟡🔴) |
+| `video-idea-to-context` | **Planned** | `video-ideas.md` + user selection | `demo-video/video-context.md` |
 | `youtube-script-generator` | Planned | `video-context.md` | `script.md` |
 | `youtube-slide-prompts` | Planned | `script.md` | `slide-prompts/*.md` |
 | `youtube-thumbnail-prompt` | Planned | `script.md` + title | `thumbnail-prompt.md` |
@@ -287,13 +330,14 @@ my-project-repo/                    # Your actual project (n8n workflow, skill, 
 
 ## Next Steps
 
-1. [x] Build `repo-to-video-idea` skill (the foundation) - **DONE**
-2. [ ] Build `youtube-script-generator` skill
-3. [ ] Build `youtube-slide-prompts` skill
-4. [ ] Build `youtube-thumbnail-prompt` skill
-5. [ ] Build `youtube-title-generator` skill
-6. [ ] Build `youtube-description-generator` skill
-7. [ ] Test full pipeline on a real video project
+1. [x] Build `repo-to-video-ideas` skill (scan repo → generate ideas) - **✅ DONE**
+2. [ ] Build `video-idea-to-context` skill (selected idea → production context)
+3. [ ] Build `youtube-script-generator` skill (context → script)
+4. [ ] Build `youtube-slide-prompts` skill (script → slide prompts)
+5. [ ] Build `youtube-thumbnail-prompt` skill (script → thumbnail prompt)
+6. [ ] Build `youtube-title-generator` skill (SRT + context → titles)
+7. [ ] Build `youtube-description-generator` skill (SRT + script → description)
+8. [ ] Test full pipeline on a real video project
 
 ---
 
@@ -305,7 +349,7 @@ my-project-repo/                    # Your actual project (n8n workflow, skill, 
 - Documented artifact formats
 - Created project folder structure
 
-### Session 2 (Current)
+### Session 2
 - Renamed first skill from `video-context-builder` to `repo-to-video-idea`
 - Key insight: Start from a project repo, not raw ideas (you build first, then demo)
 - Created `repo-to-video-idea` skill with:
@@ -314,5 +358,29 @@ my-project-repo/                    # Your actual project (n8n workflow, skill, 
   - references/video-idea-templates.md (idea formats)
 - Output location changed to `demo-video/` folder inside project repo
 - Added comprehensive context gathering (10 questions)
+
+### Session 3 (Current - Major Refactor)
+- **Split `repo-to-video-idea` into TWO focused skills:**
+  1. `repo-to-video-ideas` - Scans repo, generates video-ideas.md only
+  2. `video-idea-to-context` - Takes selected idea, builds video-context.md
+- **Added code readiness assessment:**
+  - Each idea classified as 🟢 Fully Built | 🟡 Partial | 🔴 Needs Development
+  - Shows what code exists vs what needs to be built
+  - Provides dev time estimates
+  - Prioritizes ready-to-demo ideas
+- **Created comprehensive reference files:**
+  - code-assessment-patterns.md - How to assess code readiness
+  - video-ideas-output-template.md - Definitive output format
+  - Updated project-type-patterns.md with assessment guidance
+- **Removed duplication:**
+  - Made video-ideas-output-template.md single source of truth
+  - Each reference file has clear single purpose
+  - Eliminated ambiguity for AI agents
+- **Key insight:** Separation allows:
+  - User to review ideas at leisure
+  - Multiple videos from one idea generation
+  - Clean handoff between analysis and planning phases
+- **Folder renamed:** `repo-to-video-idea/` → `repo-to-video-ideas/`
+- **Status:** repo-to-video-ideas skill complete and tested
 
 *Add notes here as we iterate on the pipeline design*
