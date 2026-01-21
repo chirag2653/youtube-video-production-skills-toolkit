@@ -283,7 +283,7 @@ my-project-repo/                    # Your actual project (n8n workflow, skill, 
 | Skill | Status | Input Artifact | Output Artifact |
 |-------|--------|----------------|-----------------|
 | `repo-to-video-ideas` | **✅ Created** | Project codebase | `demo-video/video-ideas.md` (ranked by code readiness 🟢🟡🔴) |
-| `video-idea-to-context` | **Planned** | `video-ideas.md` + user selection | `demo-video/video-context.md` |
+| `video-idea-to-context` | **✅ Created** | `video-ideas.md` (optional) + user input | `demo-video/video-context.md` |
 | `youtube-script-generator` | Planned | `video-context.md` | `script.md` |
 | `youtube-slide-prompts` | Planned | `script.md` | `slide-prompts/*.md` |
 | `youtube-thumbnail-prompt` | Planned | `script.md` + title | `thumbnail-prompt.md` |
@@ -331,7 +331,7 @@ my-project-repo/                    # Your actual project (n8n workflow, skill, 
 ## Next Steps
 
 1. [x] Build `repo-to-video-ideas` skill (scan repo → generate ideas) - **✅ DONE**
-2. [ ] Build `video-idea-to-context` skill (selected idea → production context)
+2. [x] Build `video-idea-to-context` skill (selected idea → production context) - **✅ DONE**
 3. [ ] Build `youtube-script-generator` skill (context → script)
 4. [ ] Build `youtube-slide-prompts` skill (script → slide prompts)
 5. [ ] Build `youtube-thumbnail-prompt` skill (script → thumbnail prompt)
@@ -382,5 +382,29 @@ my-project-repo/                    # Your actual project (n8n workflow, skill, 
   - Clean handoff between analysis and planning phases
 - **Folder renamed:** `repo-to-video-idea/` → `repo-to-video-ideas/`
 - **Status:** repo-to-video-ideas skill complete and tested
+
+### Session 4 (Current - video-idea-to-context skill created)
+- **Built complete `video-idea-to-context` skill:**
+  - SKILL.md (14.5 KB) - Main workflow with 7 phases (Phase 0-6)
+  - references/project-type-detection-patterns.md (10.8 KB) - Project type detection guide
+  - references/demo-scenario-templates.md (11.3 KB) - Demo scenario design templates
+  - references/user-context-questions.md (14.2 KB) - User question guide (post-analysis)
+  - references/video-context-output-template.md (20.7 KB) - Output file template
+- **Key features:**
+  - **Phase 0: Tool Availability Check** - "No Hallucination" policy enforced
+  - **Flexible input:** Works with or without video-ideas.md
+  - **Deep analysis:** Uses SemanticSearch extensively to understand code
+  - **Concrete demos:** Specific test data, commands, expected outcomes
+  - **Smart user questions:** Asked AFTER technical analysis (context-aware)
+  - **Two-section output:** USER-PROVIDED vs AUTO-GENERATED context clearly separated
+  - **MCP integration:** Checks for n8n-mcp, WebSearch, user-github with graceful fallbacks
+- **Reverse-engineered from real script:** Analyzed professional YouTube script to identify what context script generators actually need
+- **Tool strategy:**
+  - Required: Read, Write, Glob, Grep, SemanticSearch, LS (abort if missing)
+  - Project-specific: n8n-mcp (for workflows), WebSearch (for pricing)
+  - Optional: user-github (enhanced README context)
+  - Never hallucinate: If tool unavailable, ask user or mark for research
+- **Output format:** video-context.md with 20+ sections including demo scenarios, tool pricing, user context, technical deep dive
+- **Status:** video-idea-to-context skill complete and ready for testing
 
 *Add notes here as we iterate on the pipeline design*
